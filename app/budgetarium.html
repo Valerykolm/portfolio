@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>WordPress developer</title>
+
+  <!-- Bootstrap grid CSS -->
+  <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+  <!-- Fonts Google Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Slick Slider -->
+  <link rel="stylesheet" href="slick/slick-theme.css">
+  <link rel="stylesheet" href="slick/slick.css">
+  <link rel="stylesheet" href="css/powerange.min.css">
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div class="top-nav">
+    <div class="container">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-md-auto">
+          <div class="logo">
+            <a href="index.html">wp</a>
+          </div>
+        </div>
+        <!-- /.col-md -->
+        <div class="col-md-auto">
+          <button class="top-nav_btn">
+            <i class="icon-menu"></i>
+          </button>
+          <ul class="top-nav_menu">
+            <li><a href="index.html">home</a></li>
+            <li><a href="portfolio.html">portfolio</a></li>
+            <li><a href="budgetarium.html">budgetarium</a></li>
+            <li><a href="contacts.html">contact</a></li>
+          </ul>
+        </div>
+        <!-- /.col-md -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid-->   
+  </div>
+  <!-- /.top-nav -->
+  <div class="project light">
+    <div class="container">
+      <div class="row" id="app">
+        <div class="col-md">
+          <h4>{{ title }}: {{ counter }}</h4>
+          <input 
+            type="text" 
+            :placeholder="income" 
+            v-bind:value="inputValueIncome"
+            @input="inputChangeHandler"
+            v-on:keypress.enter="addNewNote"
+          />
+          <div>
+            <!--<h4>inputValue: {{ inputValue }}</h4>-->
+            <button class="btn-income" v-on:click="addNewNote">Add</button>
+          </div>
+          <ul v-if="notes.length !== 0">
+            <li v-for="note in notes">
+              {{ note }}
+              <button class="btn-delete" v-on:click="deleteNote">Delete</button>
+            </li>
+            <li>
+              <strong>Total: {{ notes.length }}</strong> | Total*2: {{ doubleCount() }}
+            </li>
+          </ul>
+          <div class="mt-3" v-else>Add your income</div>
+          <h3 class="h3-budget">Should you spent</h3>
+          <!--Здесь появляются расчёты, сколько рекомендовано тратить-->
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label" data-per="0.25">Rent is 25%: {{ counter * 0.25}}</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label" data-per="0.1">Food is 10%: {{ counter * 0.1}}</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label" data-per="0.05">Health is 5%: {{ counter * 0.05}}</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label" data-per="0.03">Bills is 3%: {{ counter * 0.03}}</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label" data-per="0.1">Wish is 10%: {{ counter * 0.1}}</span>
+          </div>
+        </div>
+        <!-- /.col-md -->
+        <div class="col-md">
+          <legend class="should-spent">How much money do you have?</legend>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label">Amount:</span>
+            <span class="calc-sum_have_num">{{ counter * 0.47}}</span>
+          </div>
+          <div>
+            <span class="calc-year">
+              <strong>22 200</strong><br>
+              <small>Amount after 12 months</small>
+            </span>
+            <span class="calc-monthly">
+              <strong>1 850</strong><br>
+              <small>Monthly income</small>
+            </span>
+          </div>
+          <h3 class="h3-budget">Really spent</h3>
+          <input 
+            type="text" 
+            :placeholder="spend" 
+            v-bind:value="inputValueSpend"
+            @input="inputChangeHandlerSpend"
+            v-on:keypress.enter="addNewCost"
+          />
+          <button class="btn-income" v-on:click="addNewCost">Add</button>
+          <ul v-if="costs.length !== 0">
+            <li v-for="cost in costs">
+              {{ cost }}
+              <button class="btn-delete" v-on:click="deleteCost">Delete</button>
+            </li>
+          </ul>
+          <div class="mt-3" v-else>Add your spending</div>
+        </div>
+        <!-- /.col-md -->
+        <!--<div class="w-100"></div>-->
+        <div class="col-md">
+          <h3 class="h3-budget">Price of an apartment</h3>
+          <input type="range" class="calc-range" name="sum">
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label">Amount:</span>
+            <span class="calc-sum_have_num">300 000</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label">First payment:</span>
+            <span>90 000</span>
+          </div>
+          <div class="calc-radio">
+            <input 
+              type="radio" 
+              name="type" 
+              id="new"
+            />
+            <label for="new">
+              <span>Brand new <small>VAT 5%</small></span>
+            </label>
+          </div><!--/.calc-radio-->
+          <div class="calc-radio">
+            <input type="radio" checked name="type" id="resale">
+            <label for="resale">
+              <span>Resale <small>Title deed</small></span>
+            </label>
+          </div><!--/.calc-radio-->
+        </div>
+        <div class="col-md">
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label">Title deed:</span>
+            <span>8 600</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label">VAT 5%:</span>
+            <span>15 000</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label">You have:</span>
+            <span>100 000</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label">You need:</span>
+            <span>215 000</span>
+          </div>
+          <div class="calc-sum_have">
+            <span class="calc-sum_have_label">Time to buy:</span>
+            <span>17.01.2024</span>
+          </div>
+          <legend class="should-spent">Mortgage calculator</legend>
+          <input 
+            type="text" 
+            placeholder="price" 
+            v-bind:value="price"
+            input="inputMortgage"
+          />
+          <button class="btn-income">Add</button>
+          <ul>
+            <li>
+              {{ price }}
+              <button class="btn-delete" v-on:click="deleteCost">Delete</button>
+            </li>
+          </ul>
+        </div>  
+      </div>
+    </div>
+	</div>
+	<!-- /.project -->
+  
+  <footer>
+    <div class="container">
+      <div class="row justify-content-between align-items-flex-start">
+        <div class="col-md">
+          <div class="copy">
+            <h3>Wordpress Developer</h3>
+            <p>Copyright © 2022</p>
+          </div>
+        </div>
+        <!-- /.col-md -->
+        <div class="col-md">
+          <div class="footer-contacts">
+            <p class="footer-contacts_email">valerycolm@gmail.com</p>
+            <p class="footer-contacts_phone">+357 97 846 481</p>
+          </div>
+        </div>
+        <!-- /.col-md -->
+        <div class="col-md col-6">
+          <ul class="footer_menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <!-- /.col-md -->
+        <div class="col-md-auto col-6">
+          <div class="footer-social-links">
+            <ul>
+              <li><a href="#">Facebook</a></li>
+              <li><a href="#">GitHub</a></li>
+              <li><a href="#">linkedin</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- /.col-md -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://unpkg.com/vue@next"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-3.3.1.slim.min.js"><\/script>')</script>
+<script src="slick/slick.js"></script>
+<script src="js/main.js"></script>
+<script src="js/app.js"></script>
+<script src="js/powerange.min.js"></script>
+</body>
+</html>		
+  
