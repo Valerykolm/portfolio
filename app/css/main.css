@@ -60,6 +60,7 @@
 .icon-menu:before {
   content: "\f0c9";
 } /* '' */
+/* Обозначим цвет фона всего сайта */
 body {
   background-color: #f6f6f6;
   color: #141414;
